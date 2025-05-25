@@ -12,24 +12,6 @@ class Department(models.Model):
     def __str__(self):
         return self.name
 
-class Program(models.Model):
-    name = models.CharField(max_length=100,blank=True, null=True)
-    code = models.CharField(max_length=10, unique=True,blank=True, null=True)
-    department = models.ForeignKey(Department, on_delete=models.CASCADE,blank=True, null=True)
-    duration = models.PositiveSmallIntegerField(help_text="Duration in years",blank=True, null=True)
-    
-    def __str__(self):
-        return f"{self.name} ({self.code})"
-
-class Class(models.Model):
-    name = models.CharField(max_length=50,blank=True, null=True)
-    program = models.ForeignKey(Program, on_delete=models.CASCADE,blank=True, null=True)
-    academic_year = models.CharField(max_length=20,blank=True, null=True)
-    class_teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    
-    def __str__(self):
-        return f"{self.name} - {self.program} ({self.academic_year})"
-
 class Course(models.Model):
     title = models.CharField(max_length=100,blank=True, null=True)
     code = models.CharField(max_length=10, unique=True,blank=True, null=True)
@@ -41,10 +23,26 @@ class Course(models.Model):
     def __str__(self):
         return f"{self.title} ({self.code})"
 
+class ClassName(models.Model):
+    name = models.CharField(max_length=50,blank=True, null=True)
+ 
+    def __str__(self):
+        return str(self.name)
+
+
+class Section(models.Model):
+    name = models.CharField(max_length=50,blank=True, null=True)
+ 
+    def __str__(self):
+        return str(self.name)
+    
+
+
+
 class CourseOffering(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,blank=True, null=True)
     teacher = models.ForeignKey(User, on_delete=models.CASCADE,blank=True, null=True)
-    class_info = models.ForeignKey(Class, on_delete=models.CASCADE,blank=True, null=True)
+    class_info = models.ForeignKey(ClassName, on_delete=models.CASCADE,blank=True, null=True)
     semester = models.CharField(max_length=20,blank=True, null=True)
     academic_year = models.CharField(max_length=20,blank=True, null=True)
     start_date = models.DateField(blank=True, null=True)

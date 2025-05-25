@@ -16,16 +16,16 @@ const Login = () => {
         console.log(username,"   ",password);
         const response = await api.post('/auth/api/login/', {"username":username, "password":password });
         console.log(response.data);
-        const {access,email,refresh,status,user_id,username1} = response.data
+        const {access,email,refresh,status,user_id,username} = response.data
         console.log(access)
         localStorage.setItem('access', access);
         localStorage.setItem('email', email);
         localStorage.setItem('refresh', refresh);
         localStorage.setItem('status', status);
         localStorage.setItem('user_id', user_id);
-        localStorage.setItem('username', username1);
+        localStorage.setItem('username', username);
 
-        navigate("/StudentDashboard")
+        navigate("/student/dashboard")
         
         
         

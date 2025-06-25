@@ -214,3 +214,8 @@ DEFAULT_FROM_EMAIL = 'saswatkumar787@gmail.com'
 
 # OTP Settings
 OTP_VALID_MINUTES = 10
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This should match your directory
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]

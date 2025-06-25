@@ -1,13 +1,11 @@
 from django.contrib import admin
 from django.urls import path,include
-
+from .views import StudentProfileAPIView
 app_name = "student"
 
-from django.http import HttpResponse
-
-def basic_view(request):
-    return HttpResponse("This is a basic response without HTML page.")
 
 urlpatterns = [
-    path('basic/', basic_view, name='basic'),
+    path(
+        'api/profile/', StudentProfileAPIView.as_view(),name='student-profile'
+    ),
 ]

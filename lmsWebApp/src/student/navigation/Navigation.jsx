@@ -1,25 +1,34 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import api from '../../api'
+import { useContext } from 'react'
+import { AuthContext } from '../../context/AuthContext'
+import { useState } from 'react'
+
+
 const Navigation = () => {
-    const pathname = window.location.pathname
-    console.log(pathname)
-    const nav = useNavigate()
-
-    const handleLogout = () => {
-        
-        localStorage.removeItem('access');
-        localStorage.removeItem('email');
-        localStorage.removeItem('refresh');
-        localStorage.removeItem('status');
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('username');
-
-        
-        nav("/login")
-
-
+    const globalAuthData = useContext(AuthContext)
+    const {setIsAuthenticated, setUser} = globalAuthData
     
+
+    const pathname = window.location.pathname
+
+    const navigate = useNavigate()
+
+    const handleLogout = async () => {
+    try {
+        await api.post('/auth/api/logout/');
+        sessionStorage.clear();
+        window.location.href = '/login';
+        setIsAuthenticated(false);
+        setUser(null);
+    } 
+    catch (error) {
+        console.error("Logout failed:", error);
+        sessionStorage.clear();
+        window.location.href = '/login';
     }
+};
 
     return (
         <nav class="bg-white shadow-sm">
@@ -36,6 +45,8 @@ const Navigation = () => {
                             <a href="/student/courses" class="text-primary px-3 py-2 font-medium">Courses</a>
                             <a href="/student/assignment" class="text-primary px-3 py-2 font-medium">Assignments</a>
                             <a href="/student/grades" class="text-primary px-3 py-2 font-medium">Grades</a>
+                            <a href="/student/schedule" class="text-primary px-3 py-2 font-medium">Schedule</a>
+                            <a href="/student/attendance" class="text-primary px-3 py-2 font-medium">Attendance</a>
                             <div class="flex items-center ml-4">
                                 <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile" class="w-8 h-8 rounded-full mr-2"/>
                                 <span class="text-primary px-3 py-2 font-mediums">John Doe</span>
